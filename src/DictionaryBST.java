@@ -1,7 +1,7 @@
 /**
  * Constructs a Binary Search Tree that takes String values, capitalizing them and storing in lexicographical order.
  */
-public class StrBST {
+public class DictionaryBST {
 
     /**
      * Enable to display debug messages to console while testing
@@ -10,45 +10,45 @@ public class StrBST {
     /**
      * The root node of this tree
      */
-    Node root;
+    DictionaryNode root;
 
     /**
-     * Inserts the passed String value into the tree
-     * @param s The String value to be inserted
+     * Inserts the passed Dictionary value and its Definition into the tree
+     * @param s The Dictionary value to be inserted
+     * @param def The Dictionary values definition
      */
-    public void insert(String s) {
+    public void insert(String s, String def) {
         // converts the passed value to an uppercase string for simpler comparisons
         s = s.toUpperCase();
 
         // if the tree has no root, sets the root to a new node with the passed value
         if (root == null)
-            root = new Node(s);
+            root = new DictionaryNode(s, def);
 
         // else if the passed string is not empty, calls the recursive insert method on the node to insert it into the tree
         if (!s.isEmpty())
-            insert(s, root);
+            insert(s, def, root);
 
     } // end node
 
     /**
      * Inserts the passed String value into the tree using recursion
+     *
      * @param s The string value being inserted
      * @param currentNode The currentNode being processed
-     * @return The current Node object being processed
+     * @return The current DictionaryNode object being processed
      */
-    public Node insert(String s, Node currentNode) {
+    public DictionaryNode insert(String s, String def, DictionaryNode currentNode) {
         // if the currentNode has no value, inserts the passed value
         if (currentNode == null)
-            currentNode = new Node(s);
+            currentNode = new DictionaryNode(s, def);
 
         // if the passed value is less than zero, insert it in the left subtree
         if (s.compareTo(currentNode.value) < 0)
-            currentNode.left = insert(s, currentNode.left);
+            currentNode.left = insert(s, def, currentNode.left);
         // else if the passed value is greater than zero, insert it in the right subtree
         else if (s.compareTo(currentNode.value) > 0)
-            currentNode.right = insert(s, currentNode.right);
-        else
-            debug("Unable to add String value \"" + s + "\", value already exists!");
+            currentNode.right = insert(s, def, currentNode.right);
 
         return currentNode;
 
@@ -76,7 +76,7 @@ public class StrBST {
      * @param currentNode The currentNode being processed
      * @return The most recent node that was manipulated/traversed
      */
-    public Node remove(String s, Node currentNode) {
+    public DictionaryNode remove(String s, DictionaryNode currentNode) {
         // if the passed value is less than the currentNode value, traverse down the right subTree
         if (s.compareTo(currentNode.value) > 0)
             currentNode.right = remove(s, currentNode.right);
@@ -94,7 +94,7 @@ public class StrBST {
             // else, the current node must have 2 children
             else {
                 // finds and stores the left most node of the right subTree
-                Node successor = getSuccessor(currentNode.right);
+                DictionaryNode successor = getSuccessor(currentNode.right);
                 // replaces this nodes value with the left most nodes value
                 currentNode.value = successor.value;
                 // traverses the rest of the tree to ensure proper deletion of the left-most node
@@ -111,9 +111,9 @@ public class StrBST {
     /**
      * Traverses the tree to find and return the left-most node of the passed SubTree
      * @param currentNode The currentNode being processed
-     * @return The left-most Node object of the passed SubTree
+     * @return The left-most DictionaryNode object of the passed SubTree
      */
-    public Node getSuccessor(Node currentNode) {
+    public DictionaryNode getSuccessor(DictionaryNode currentNode) {
         if (currentNode.left == null)
             return currentNode;
         return getSuccessor(currentNode.left);
@@ -129,7 +129,7 @@ public class StrBST {
         // converts the passed value to an uppercase string for simpler comparisons
         s = s.toUpperCase();
         debug("Attempting to find value " + s + "...");
-        if (root == null || s.isEmpty())
+        if (root == null)
             return false;
 
         return search(s, root);
@@ -141,7 +141,7 @@ public class StrBST {
      * @param s The string value to search for in the tree
      * @return True if the value is found in this tree, else returns false
      */
-    public boolean search(String s, Node currentNode) {
+    public boolean search(String s, DictionaryNode currentNode) {
         try {
             // if the currentNode is null, the was not found in this path
             if (currentNode == null) {
@@ -149,7 +149,7 @@ public class StrBST {
                 return false;
             // else if the currentNode contains the passed value
             } else if (s.compareTo(currentNode.value) == 0) {
-                debug(" Successfully found value " + s + "!");
+                debug(" Successfully found value \"" + s + "\"");
                 return true;
 
             } // end if
@@ -191,7 +191,7 @@ public class StrBST {
      * Prints each node in order from the smallest value to the largest value
      * @param currentNode The currentNode being processed
      */
-    public void print(Node currentNode) {
+    public void print(DictionaryNode currentNode) {
         // prints the current nodes root and left/right child if they aren't null
         String left = currentNode.left == null ? "Null" : currentNode.left.value;
         String right = currentNode.right == null ? "Null" : currentNode.right.value;
@@ -205,6 +205,56 @@ public class StrBST {
         // traverses the right tree printing each value in-order from lowest to highest
         if (currentNode.right != null)
             print(currentNode.right);
+
+    } // end node
+
+
+    /**
+     * Prints the passed dictionary value and its definition to the console
+     * @param s The dictionary value to find and print (if found)
+     */
+    public void printDictionaryItem(String s) {
+        if (s.isEmpty()) {
+            System.out.println("Error printing dictionary value: \"" + s + "\", string is empty...");
+        } else {
+            s = s.toUpperCase();
+            printDictionaryItem(s, root);
+
+        } // end if
+
+    } // end node
+
+    /**
+     * Recursively iterates through the tree to find the passed dictionary value,
+     * if the value is found, prints the value and its definition to the console
+     * @param s The dictionary value to search for
+     * @param currentNode The currentNode being searched
+     * @return The most recently processed node
+     */
+    public DictionaryNode printDictionaryItem(String s, DictionaryNode currentNode) {
+        if (currentNode == null) {
+            System.out.println("Unable to print dictionary value! Value was invalid!");
+            return null;
+
+        } // end if
+
+        // if the passed value matches the currentNode value, print this nodes information
+        if (currentNode.value.equals(s)) {
+            System.out.println(currentNode.value + "\n" + currentNode.definition + "\n");
+            return currentNode;
+
+        } // end if
+
+        // if the passed value is lexicographically less than the currentNode value, traverse the left subTree
+        if (currentNode.left != null && s.compareTo(currentNode.value) < 0)
+                printDictionaryItem(s, currentNode.left);
+        // if the passed value is lexicographically greater than the currentNode value, traverse the right subTree
+        else if (currentNode.right != null && s.compareTo(currentNode.value) > 0)
+                printDictionaryItem(s, currentNode.right);
+        else
+            System.out.println("Unable to print dictionary value: \"" + s + "\", value was not found");
+
+        return currentNode;
 
     } // end node
 

@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        StrBST bst = new StrBST();
+        DictionaryBST bst = new DictionaryBST();
         StrBSTPrinter printer = new StrBSTPrinter();
 
         print("Testies... Testies... 1, 2, shree!");
@@ -14,33 +14,30 @@ public class Main {
 //        bst.insert("P");
 //        bst.insert("Q");
 //        bst.insert("H");
-        bst.insert("small");
-        bst.insert("FIFTY");
-        bst.insert("Long");
-        bst.insert("big");
-        bst.insert("young");
+        bst.insert("small", "");
+        bst.insert("FIFTY", "A rather valuable number");
+        bst.insert("Long", "The size of my penis");
+        bst.insert("big", "A synonym for the size of my penis");
+        bst.insert("young", "The age I wish I was");
 
-        printer.printNode(bst.root);
+        bst.printDictionaryItem("");
+        bst.printDictionaryItem("youNg");
+        bst.printDictionaryItem("FiftY");
+        bst.printDictionaryItem("Long");
+        bst.printDictionaryItem("BIG");
+        bst.printDictionaryItem("small");
+        bst.printDictionaryItem("hehehehe");
+
+        bst.search("LoNg");
+        bst.search("big");
         print();
 
-        //bst.print();
-        print();
-
-        bst.search("O");
-        bst.search("W");
-        print();
-
-        bst.remove("lOng");
-        bst.remove("W");
-        printer.printNode(bst.root);
-        print();
-
-        bst.remove("Q");
-        printer.printNode(bst.root);
+        bst.remove("FIFty");
+        //printer.printNode(bst.root);
         print();
 
         bst.remove("small");
-        printer.printNode(bst.root);
+        //printer.printNode(bst.root);
         print();
 
         bst.print();
