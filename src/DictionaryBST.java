@@ -95,8 +95,9 @@ public class DictionaryBST {
             else {
                 // finds and stores the left most node of the right subTree
                 DictionaryNode successor = getSuccessor(currentNode.right);
-                // replaces this nodes value with the left most nodes value
+                // replaces this nodes value and definition with the left most nodes value/def
                 currentNode.value = successor.value;
+                currentNode.definition = successor.definition;
                 // traverses the rest of the tree to ensure proper deletion of the left-most node
                 currentNode.right = remove(successor.value, currentNode.right);
 
@@ -179,7 +180,7 @@ public class DictionaryBST {
      * Prints the out the tree following an in-order traversal with each value on a separate line.
      */
     public void print() {
-        debug("Printing BST in order...");
+        debug("Printing information on each node in order...");
         if (root != null)
             print(root);
         else
@@ -257,6 +258,34 @@ public class DictionaryBST {
         return currentNode;
 
     } // end node
+
+    /**
+     * Prints each dictionary value along with its respective definition in the tree in alphabetical order
+     */
+    public void printDictionary() {
+        printDictionary(root);
+
+    } // end void
+
+    /**
+     * Prints each dictionary value along with its respective definition in the tree in alphabetical order
+     * @param currentNode
+     */
+    public void printDictionary(DictionaryNode currentNode) {
+        if (currentNode == null)
+            return;
+
+        // traverses the left tree printing each value in-order from lowest to highest
+        if (currentNode.left != null)
+            printDictionary(currentNode.left);
+
+        System.out.println("Root: " + currentNode.value + "\n" + currentNode.definition);
+
+        // traverses the right tree printing each value in-order from lowest to highest
+        if (currentNode.right != null)
+            printDictionary(currentNode.right);
+
+    } // end void
 
     /**
      * Writes debug info to the console when debug mode is enabled (Hard-coded)

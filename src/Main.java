@@ -20,14 +20,6 @@ public class Main {
         bst.insert("big", "A synonym for the size of my penis");
         bst.insert("young", "The age I wish I was");
 
-        bst.printDictionaryItem("");
-        bst.printDictionaryItem("youNg");
-        bst.printDictionaryItem("FiftY");
-        bst.printDictionaryItem("Long");
-        bst.printDictionaryItem("BIG");
-        bst.printDictionaryItem("small");
-        bst.printDictionaryItem("hehehehe");
-
         bst.search("LoNg");
         bst.search("big");
         print();
@@ -41,6 +33,18 @@ public class Main {
         print();
 
         bst.print();
+
+        bst.printDictionaryItem("");
+        bst.printDictionaryItem("youNg");
+        bst.printDictionaryItem("FiftY");
+        bst.printDictionaryItem("Long");
+        bst.printDictionaryItem("BIG");
+        bst.printDictionaryItem("small");
+        bst.printDictionaryItem("hehehehe");
+        print();
+
+        bst.printDictionary();
+        print();
 
 //        print("Compare Test: (0 = Equal, null or empty || -1 = string1 < string1 || 1 = string1 > string2)");
 //        print("z vs. Z = " + Test.compareTo("z","Z"));
